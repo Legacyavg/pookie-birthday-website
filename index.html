@@ -55,6 +55,110 @@
             display: none !important;
         }
 
+        /* Pookie Detector Meter (Password Section) */
+        #pookie-detector {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 50px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(5px);
+            width: 400px;
+            text-align: center;
+            z-index: 5;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #pookie-detector h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            color: #FF6F91;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        #pookie-detector input {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: 2px solid #FF6F91;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            color: #FF6F91;
+            width: 80%;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #pookie-detector input::placeholder {
+            color: #FF9999;
+            opacity: 1;
+        }
+
+        #pookie-detector input:focus {
+            border-color: #FF69B4;
+        }
+
+        #pookie-detector input[type="password"] {
+            -webkit-text-security: disc;
+            color: #FF6F91;
+        }
+
+        #pookie-detector .meter {
+            width: 80%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+        }
+
+        #pookie-detector .meter-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #FF6F91, #FFD700);
+            transition: width 0.3s ease;
+        }
+
+        #pookie-detector button {
+            padding: 10px 30px;
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #FF6F91, #FFD700);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #pookie-detector button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        #pookie-detector button:hover::before {
+            left: 100%;
+        }
+
+        #pookie-detector button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
         /* Message box styling with a modern look */
         .msg-box {
             background: rgba(255, 255, 255, 0.95);
@@ -335,18 +439,28 @@
 </head>
 <body>
     <div class="container">
-        <div id="lets-start" class="btn">Let’s Start</div>
+        <!-- Pookie Detector Meter (Password Section) -->
+        <div id="pookie-detector">
+            <h2>Pookie Detector Meter 🔒</h2>
+            <input type="password" id="pookie-password" placeholder="Enter Password">
+            <div class="meter">
+                <div class="meter-fill" id="meter-fill"></div>
+            </div>
+            <button id="pookie-submit">Verify Pookie</button>
+        </div>
+
+        <div id="lets-start" class="btn hidden">Let’s Start</div>
         <div id="msg1" class="msg-box hidden">
             <span class="sparkle">✨</span>
-            <div class="msg">It’s ur special day yaaaay</div>
+            <div class="msg">Heyy my ziddi bachi, guess what day it is? 🥳</div>
         </div>
         <div id="msg2" class="msg-box hidden">
             <span class="sparkle">✨</span>
-            <div class="msg">I wanted to make smth special for you as you are my pyara babu pookie</div>
+            <div class="msg">It’s your BIRTHDAY, my cutu puchuuu, and I’ve got something super special for you! 💖</div>
         </div>
         <div id="msg3" class="msg-box hidden">
             <span class="sparkle">✨</span>
-            <div class="msg">Do u wanna see what i made???</div>
+            <div class="msg">My one and only Pookie, ready to see your surprise? 🎉</div>
         </div>
         <div id="choice" class="hidden">
             <button id="yes-btn" class="btn">Yes</button>
@@ -384,14 +498,6 @@
     <script>
         // Wait for the DOM to be fully loaded
         document.addEventListener("DOMContentLoaded", () => {
-            // Password protection
-            const correctPassword = "pookie2025";
-            const userPassword = prompt("Enter the password to access your birthday surprise! 🎂");
-            if (userPassword !== correctPassword) {
-                alert("Oops! That’s not the right password. Please try again or ask me for the password! 😊");
-                window.location.reload();
-            }
-
             // Ensure GSAP is loaded
             if (typeof gsap === "undefined") {
                 console.error("GSAP failed to load. Please check your internet connection or the GSAP CDN URL.");
@@ -401,6 +507,48 @@
                 }
                 return;
             }
+
+            // Pookie Detector Meter (Password Check)
+            const pookiePasswordInput = document.getElementById("pookie-password");
+            const pookieSubmitButton = document.getElementById("pookie-submit");
+            const meterFill = document.getElementById("meter-fill");
+            const correctPassword = "pookie2025";
+
+            pookiePasswordInput.addEventListener("input", () => {
+                const inputLength = pookiePasswordInput.value.length;
+                const maxLength = correctPassword.length;
+                const fillPercentage = (inputLength / maxLength) * 100;
+                meterFill.style.width = `${Math.min(fillPercentage, 100)}%`;
+            });
+
+            pookieSubmitButton.addEventListener("click", () => {
+                const enteredPassword = pookiePasswordInput.value;
+                if (enteredPassword === correctPassword) {
+                    gsap.to("#pookie-detector", {
+                        opacity: 0,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => {
+                            document.getElementById("pookie-detector").classList.add("hidden");
+                            // Show the "Let's Start" button after password verification
+                            const letsStartButton = document.getElementById("lets-start");
+                            if (letsStartButton) {
+                                letsStartButton.classList.remove("hidden");
+                                gsap.fromTo(
+                                    letsStartButton,
+                                    { opacity: 0, y: 20 },
+                                    { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+                                );
+                            }
+                        }
+                    });
+                } else {
+                    alert("Incorrect password! Only the real Pookie can enter. Try again!");
+                    pookiePasswordInput.value = "";
+                    meterFill.style.width = "0%";
+                }
+            });
 
             // Initialize GSAP timeline
             const tl = gsap.timeline({ paused: true });
@@ -602,9 +750,29 @@
             const noButton = document.getElementById("no-btn");
             if (noButton) {
                 noButton.addEventListener("click", () => {
-                    console.log("No button clicked!");
-                    hideElement("choice");
-                    location.reload();
+                    console.log("No button clicked! Teleporting...");
+                    // Get the viewport dimensions
+                    const viewportWidth = window.innerWidth;
+                    const viewportHeight = window.innerHeight;
+
+                    // Get the button dimensions
+                    const buttonWidth = noButton.offsetWidth;
+                    const buttonHeight = noButton.offsetHeight;
+
+                    // Calculate random positions within the viewport, ensuring the button stays fully visible
+                    const maxX = viewportWidth - buttonWidth;
+                    const maxY = viewportHeight - buttonHeight;
+
+                    const randomX = Math.random() * maxX;
+                    const randomY = Math.random() * maxY;
+
+                    // Animate the button to the new random position
+                    gsap.to(noButton, {
+                        x: randomX - (viewportWidth / 2 - buttonWidth / 2), // Adjust for the initial centering
+                        y: randomY - (viewportHeight / 2 - buttonHeight / 2),
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
                 });
             }
 
@@ -774,4 +942,4 @@
         });
     </script>
 </body>
-</html> 
+</html>
