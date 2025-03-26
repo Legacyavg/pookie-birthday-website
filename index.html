@@ -170,6 +170,10 @@
             background: linear-gradient(45deg, #E6E6FA, #D8BFD8);
         }
 
+        #goodbye-btn {
+            background: linear-gradient(45deg, #FF9999, #FF6666);
+        }
+
         /* Center Yes/No buttons */
         #choice {
             display: flex;
@@ -184,7 +188,7 @@
         }
 
         /* Center other button containers */
-        #lights, #music, #decorate, #balloons, #cake-btn-div, #message {
+        #lights, #music, #decorate, #balloons, #cake-btn-div, #message, #goodbye {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -378,7 +382,11 @@
                 phuuuur!!!
             </div>
         </div>
-        <iframe id="background-music" width="1" height="1" src="https://www.youtube.com/embed/1GWKhpN1KyA?autoplay=0&loop=1&playlist=1GWKhpN1KyA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div id="goodbye" class="hidden"><button id="goodbye-btn" class="btn">Goodbye</button></div>
+        <audio id="background-music" loop>
+            <source src="happy-birthday-10s.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
     </div>
 
     <script>
@@ -634,10 +642,12 @@
             if (musicButton) {
                 musicButton.addEventListener("click", () => {
                     console.log("Music button clicked!");
-                    // Play the background music by updating the iframe src to enable autoplay
+                    // Play the background music
                     const backgroundMusic = document.getElementById("background-music");
                     if (backgroundMusic) {
-                        backgroundMusic.src = backgroundMusic.src.replace("autoplay=0", "autoplay=1");
+                        backgroundMusic.play().catch(error => {
+                            console.error("Error playing audio:", error);
+                        });
                     }
                     gsap.to("#music", {
                         opacity: 0,
@@ -769,6 +779,18 @@
                     });
                     document.body.style.background = "linear-gradient(135deg, #FF6666 0%, #FF9999 100%)";
                     setTimeout(() => showElement("message-text"), 2000);
+                    setTimeout(() => showElement("goodbye"), 4000); // Show Goodbye button 2 seconds after the message
+                });
+            }
+
+            // Goodbye button to close the website
+            const goodbyeButton = document.getElementById("goodbye-btn");
+            if (goodbyeButton) {
+                goodbyeButton.addEventListener("click", () => {
+                    console.log("Goodbye button clicked!");
+                    window.close();
+                    // Fallback in case window.close() doesn't work
+                    alert("Thank you for celebrating with me! You can now close this tab. 💖");
                 });
             }
         });
