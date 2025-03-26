@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Babu</title>
+    <!-- Load Poppins font with bold weight -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body styling with a subtle gradient background */
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFE6EE 0%, #FFD1DC 100%);
+            transition: background 1s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FF6F91;
+            position: relative;
+        }
+
+        /* Add a subtle particle-like background effect */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        /* Container for all content */
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Hidden class to control visibility */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Message box styling with a modern look */
+        .msg-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 50px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            backdrop-filter: blur(5px);
+            width: fit-content;
+            z-index: 3;
+        }
+
+        .msg {
+            font-size: 40px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .sparkle {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #FFD700;
+            animation: sparkle 1.5s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Button styling with a professional look */
+        .btn {
+            padding: 15px 35px;
+            font-size: 22px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px 40px;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            z-index: 5;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        #lets-start {
+            background: linear-gradient(45deg, #FF00FF, #FFD700);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #yes-btn {
+            background: linear-gradient(45deg, #FF6F91, #FFC1CC);
+        }
+
+        #no-btn {
+            background: linear-gradient(45deg, #D3D3D3, #A9A9A9);
+        }
+
+        #lights-btn {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+        }
+
+        #music-btn {
+            background: linear-gradient(45deg, #FF9A8B, #FF6F91);
+        }
+
+        #decorate-btn {
+            background: linear-gradient(45deg, #FFB6C1, #FF69B4);
+        }
+
+        #balloons-btn {
+            background: linear-gradient(45deg, #87CEFA, #4682B4);
+        }
+
+        #cake-btn, #cut-btn {
+            background: linear-gradient(45deg, #98FB98, #32CD32);
+        }
+
+        #message-btn {
+            background: linear-gradient(45deg, #E6E6FA, #D8BFD8);
+        }
+
+        /* Center Yes/No buttons */
+        #choice {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            z-index: 3;
+        }
+
+        /* Center other button containers */
+        #lights, #music, #decorate, #balloons, #cake-btn-div, #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Hearts animation */
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #FF9999;
+            z-index: 1;
+            opacity: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-20vh);
+                opacity: 0;
+            }
+        }
+
+        /* Balloons animation */
+        .balloon {
+            position: absolute;
+            font-size: 30px;
+            color: #87CEFA;
+            z-index: 1;
+            opacity: 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* HAPPY BIRTHDAY text styling */
+        #happy-birthday {
+            font-size: 48px;
+            color: #FF69B4;
+            position: absolute;
+            top: 15%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+        }
+
+        #happy-birthday::before {
+            content: "🎂";
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* Cake container */
+        #cake {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            font-size: 80px;
+            color: #FFB6C1;
+            z-index: 3;
+            transition: top 0.5s ease;
+        }
+
+        /* Cut button positioning */
+        #cut {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+
+        /* Heart background for final animation */
+        #heart-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0;
+            color: #FF6F91;
+            z-index: 1;
+        }
+
+        /* Scrollable container for the final message */
+        .message-scroll-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            opacity: 0;
+            animation: fadeIn 2s ease-in forwards;
+            z-index: 5;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Final message styling inside the scrollable container */
+        #message-text {
+            font-size: 24px;
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        /* Style the scrollbar to match the aesthetic */
+        .message-scroll-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .message-scroll-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .message-scroll-container::-webkit-scrollbar-thumb {
+            background: #FF6F91;
+            border-radius: 10px;
+        }
+
+        .message-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #FF9999;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="lets-start" class="btn">Let’s Start</div>
+        <div id="msg1" class="msg-box hidden">
+            <span class="sparkle">✨</span>
+            <div class="msg">It’s ur special day yaaaay</div>
+        </div>
+        <div id="msg2" class="msg-box hidden">
+            <span class="sparkle">✨</span>
+            <div class="msg">I wanted to make smth special for you as you are my pyara babu pookie</div>
+        </div>
+        <div id="msg3" class="msg-box hidden">
+            <span class="sparkle">✨</span>
+            <div class="msg">Do u wanna see what i made???</div>
+        </div>
+        <div id="choice" class="hidden">
+            <button id="yes-btn" class="btn">Yes</button>
+            <button id="no-btn" class="btn">No</button>
+        </div>
+        <div id="lights" class="hidden"><button id="lights-btn" class="btn">Turn on the Lights</button></div>
+        <div id="music" class="hidden"><button id="music-btn" class="btn">Play Music</button></div>
+        <div id="decorate" class="hidden"><button id="decorate-btn" class="btn">Decorate</button></div>
+        <div id="balloons" class="hidden"><button id="balloons-btn" class="btn">Fly the Balloons</button></div>
+        <div id="cake-btn-div" class="hidden"><button id="cake-btn" class="btn">Cut the Cake</button></div>
+        <div id="cut" class="hidden"><button id="cut-btn" class="btn">Cut!</button></div>
+        <div id="message" class="hidden"><button id="message-btn" class="btn">Message</button></div>
+        <div id="happy-birthday" class="hidden">HAPPY BIRTHDAY</div>
+        <div id="cake" class="hidden">🎂</div>
+        <div id="heart-bg" class="hidden">❤️</div>
+        <div class="message-scroll-container hidden">
+            <div id="message-text">
+                Happy Birthday, Pookie!! 🎉🎂🥳<br><br>
+                Oh my little cutieeeee, today is such a special day!! It’s my pyaari pyaariii cuutuuupuchuuuuuu myyy onee and onlyyyy favvv POOKIEEEEE's BIRTHDAYYYY🎊🎊🎊🎊🎊🎊🎊🎊<br><br>
+                First of all, listen up, my chotu munnu babu, do you even realize how special you are to me omg... If there is one birthday in this world that matters the most, it’s yours(MAA BAAP KA BHI OFC). And don’t worry, I have already switched to full celebration mode phor u 🥳 Balloons and of course, a huge cake (which was in screen ofc cuz i am gareeb for real cake... so uh sambhaling from this chotu thing sorii)<br><br>
+                ngl Life feels so weird without you. Nothing is fun without you around. Who else will send me the most random outfit checks and ask, “Does this look good?” Who will share all those tiny details with me that only I understand? 🥺 You are not just my best friend—you are my comphortabul,safe place..., and yes… my biggest source of stress too..... (sachi.. cringe hoga sori.. sambhal lo.. but bday tha na... so likhna pda...)<br><br>
+                I still remember those nights when we would talk endlessly, for no reason at all, just listening to each other’s nonsense(abhi bhi krte aur krege ofc) Ahh, i wantt themm backkkkkk.... Now, because of exams, we don’t get to talk as much, but uuu dont worryyyyy, your importance in my life will never ever ever never ever change omg. You WERE MY FIRST PRIORITY , U ARE MY FIRST PRIORITY AND U WILL BE FIRST ALWAYS OK?..........<br><br>
+                Do you even know how cute you are(my chotu nathkhat)..  Areeee, ngl lol you are a limited edition, one-of-a-kind like bandariyas in human, the only Pookie in this entire world... and you are mine WAHAHA<br><br>
+                Ngl if we started cringe lets jst make it more..... ok So... Sometimes I wonder how dull my life would be without you. You are like an energy drink for my soul... kabhi pookify mode on hota... kabhi ZIDDI BACHI, sometimes cutu puchuuuu , but always NOT LISTENING TO ME. And HAHA nO matter how much you pretend to have an attitude, I know deep down you are a puukiiieeeeeee who only shows her childish side to me hehehehehehehe (ikk everythinggg)<br><br>
+                So madam ji ,, enjoy your day to the fullest OK? eat as many chocolates, ice cream, and cake as you want! (But control kr lena thoda... warna fir bolegi mein moti ho gyi....) Do you even know how precious you are to me (NO BOL)...  UK In this world, people can be replaced, but ngl... cringe inc... bisi... no one can take ur place now... <br><br>
+                and ngl pls never ever leave me ngl even if sometime i get too much of into ego but even that time uk i fuck up things but never ever leave me pls chaheye to mar dena kut dena peet dena katal kr dena harass kr dena kaat dena but chodhna mat... and uh.. kabhi lage chodhne jaisa.. ye website wapis khol lena... ofc it took a bit hardwork and ofc u said me not to make all this but i had it planned from so long and when i told u i am learning html... it was for this reason only T_T . but ok lets not get too emotional now, or else you will call me billukie again omg NO I AM BATMAN... but anyways ji ik para is short but i will make sure to make it long afterwards cuz i have studies also...At last...Happy Birthday, my little pyaari sabse achi diamond jaisi pookie! 🎂🎈🎁<br><br>
+                --- Your poopie to billukie, who loves you the most 💖<br><br>
+                chal bye ab shuuu<br>
+                phuuuur!!!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            // Password protection
+            const correctPassword = "pookie2025";
+            const userPassword = prompt("Enter the password to access your birthday surprise! 🎂");
+            if (userPassword !== correctPassword) {
+                alert("Oops! That’s not the right password. Please try again or ask me for the password! 😊");
+                window.location.reload();
+            }
+
+            // Ensure GSAP is loaded
+            if (typeof gsap === "undefined") {
+                console.error("GSAP failed to load. Please check your internet connection or the GSAP CDN URL.");
+                const letsStartButton = document.getElementById("lets-start");
+                if (letsStartButton) {
+                    letsStartButton.innerHTML = "Error: Animation library failed to load. Please refresh with an internet connection.";
+                }
+                return;
+            }
+
+            // Initialize GSAP timeline
+            const tl = gsap.timeline({ paused: true });
+
+            // Helper function to show an element with smooth animation
+            function showElement(elementId, fromY = -100) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    console.log(`Showing element: ${elementId}`);
+                    element.classList.remove("hidden");
+                    // Reset transforms for specific elements to ensure centering
+                    if (element.classList.contains("msg-box") || element.id === "choice" || element.id === "cake") {
+                        gsap.set(element, { x: 0, y: 0 });
+                    }
+                    gsap.fromTo(
+                        element,
+                        { opacity: 0, y: fromY },
+                        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
+                    );
+                    // If it's the message-text, reset the animation to ensure fade-in effect
+                    if (elementId === "message-text") {
+                        console.log("Showing final message with fade-in effect");
+                        // Show the parent container (message-scroll-container)
+                        const container = element.parentElement;
+                        if (container) {
+                            container.classList.remove("hidden");
+                            container.style.opacity = "0";
+                            container.style.animation = "none";
+                            setTimeout(() => {
+                                container.style.animation = "fadeIn 2s ease-in forwards";
+                            }, 10);
+                        }
+                    }
+                } else {
+                    console.error(`Element with ID ${elementId} not found.`);
+                }
+            }
+
+            // Helper function to hide an element with smooth animation
+            function hideElement(elementId, toY = 100) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    console.log(`Hiding element: ${elementId}`);
+                    gsap.to(element, {
+                        opacity: 0,
+                        y: toY,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => {
+                            element.classList.add("hidden");
+                            gsap.set(element, { y: 0 });
+                        }
+                    });
+                } else {
+                    console.error(`Element with ID ${elementId} not found.`);
+                }
+            }
+
+            // Hearts animation
+            function addHearts() {
+                const heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "♡";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDelay = Math.random() * 2 + "s";
+                document.body.appendChild(heart);
+                heart.addEventListener("animationend", () => heart.remove());
+            }
+            setInterval(addHearts, 1000);
+
+            // Balloons animation
+            function addBalloons() {
+                for (let i = 0; i < 10; i++) {
+                    let balloon = document.createElement("div");
+                    balloon.classList.add("balloon");
+                    balloon.innerHTML = "🎈";
+                    balloon.style.left = Math.random() * 100 + "vw";
+                    balloon.style.animationDelay = Math.random() * 0.5 + "s";
+                    balloon.style.zIndex = 1;
+                    document.body.appendChild(balloon);
+                    balloon.addEventListener("animationend", () => balloon.remove());
+                }
+            }
+
+            // Start sequence
+            const letsStartButton = document.getElementById("lets-start");
+            if (letsStartButton) {
+                letsStartButton.addEventListener("click", () => {
+                    console.log("Let’s Start button clicked!");
+                    tl.to("#lets-start", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => {
+                            console.log("Hiding Let’s Start button");
+                            hideElement("lets-start");
+                        }
+                    })
+                    .to("#msg1", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power3.out",
+                        onStart: () => {
+                            console.log("Showing msg1");
+                            showElement("msg1", -100);
+                        }
+                    }, "+=0.2")
+                    .to("#msg1", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => {
+                            console.log("Hiding msg1");
+                            hideElement("msg1");
+                        }
+                    }, "+=1.5")
+                    .to("#msg2", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power3.out",
+                        onStart: () => {
+                            console.log("Showing msg2");
+                            showElement("msg2", -100);
+                        }
+                    }, "+=0.2")
+                    .to("#msg2", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => {
+                            console.log("Hiding msg2");
+                            hideElement("msg2");
+                        }
+                    }, "+=1.5")
+                    .to("#msg3", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power3.out",
+                        onStart: () => {
+                            console.log("Showing msg3");
+                            showElement("msg3", -100);
+                        }
+                    }, "+=0.2")
+                    .to("#msg3", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => {
+                            console.log("Hiding msg3");
+                            hideElement("msg3");
+                        }
+                    }, "+=1.5")
+                    .to("#choice", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power3.out",
+                        onStart: () => {
+                            console.log("Showing choice");
+                            showElement("choice", -100);
+                        }
+                    }, "+=0.2");
+                    tl.play();
+                });
+            } else {
+                console.error("Let’s Start button not found in the DOM.");
+            }
+
+            // Yes/No choice
+            const yesButton = document.getElementById("yes-btn");
+            if (yesButton) {
+                yesButton.addEventListener("click", () => {
+                    console.log("Yes button clicked!");
+                    gsap.to("#choice", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => hideElement("choice")
+                    });
+                    gsap.to("body", {
+                        background: "#000",
+                        duration: 1,
+                        ease: "power3.inOut",
+                        onComplete: () => {
+                            setTimeout(() => showElement("lights"), 1600);
+                        }
+                    });
+                });
+            }
+
+            const noButton = document.getElementById("no-btn");
+            if (noButton) {
+                noButton.addEventListener("click", () => {
+                    console.log("No button clicked!");
+                    hideElement("choice");
+                    location.reload();
+                });
+            }
+
+            // Turn on lights
+            const lightsButton = document.getElementById("lights-btn");
+            if (lightsButton) {
+                lightsButton.addEventListener("click", () => {
+                    console.log("Lights button clicked!");
+                    gsap.to("body", { 
+                        background: "linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%)", 
+                        duration: 1, 
+                        ease: "power3.inOut" 
+                    });
+                    gsap.to("#lights", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => hideElement("lights")
+                    });
+                    setTimeout(() => showElement("music"), 1600);
+                });
+            }
+
+            // Play music
+            const musicButton = document.getElementById("music-btn");
+            if (musicButton) {
+                musicButton.addEventListener("click", () => {
+                    console.log("Music button clicked!");
+                    gsap.to("#music", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => hideElement("music")
+                    });
+                    setTimeout(() => showElement("decorate"), 1600);
+                });
+            }
+
+            // Decorate
+            const decorateButton = document.getElementById("decorate-btn");
+            if (decorateButton) {
+                decorateButton.addEventListener("click", () => {
+                    console.log("Decorate button clicked!");
+                    gsap.to("#decorate", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => hideElement("decorate")
+                    });
+                    gsap.to("#happy-birthday", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power3.out",
+                        onStart: () => showElement("happy-birthday", -100)
+                    });
+                    setTimeout(() => showElement("balloons"), 1600);
+                });
+            }
+
+            // Fly balloons
+            const balloonsButton = document.getElementById("balloons-btn");
+            if (balloonsButton) {
+                balloonsButton.addEventListener("click", () => {
+                    console.log("Balloons button clicked!");
+                    gsap.to("#balloons", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => hideElement("balloons")
+                    });
+                    addBalloons();
+                    setTimeout(() => showElement("cake-btn-div"), 1600);
+                });
+            }
+
+            // Show cake
+            const cakeButton = document.getElementById("cake-btn");
+            if (cakeButton) {
+                cakeButton.addEventListener("click", () => {
+                    console.log("Cake button clicked!");
+                    gsap.to("#cake-btn-div", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => hideElement("cake-btn-div")
+                    });
+                    gsap.to("#cake", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power3.out",
+                        onStart: () => showElement("cake", -100)
+                    });
+                    setTimeout(() => showElement("cut"), 1600);
+                });
+            }
+
+            // Cut cake
+            const cutButton = document.getElementById("cut-btn");
+            if (cutButton) {
+                cutButton.addEventListener("click", () => {
+                    console.log("Cut button clicked!");
+                    const cake = document.getElementById("cake");
+                    if (cake) {
+                        cake.innerHTML = "🍰🍰";
+                        cake.style.top = "45%";
+                        gsap.to("#cake", {
+                            opacity: 1,
+                            duration: 1,
+                            ease: "power3.out",
+                            onComplete: () => {
+                                gsap.to("#cake", {
+                                    opacity: 0,
+                                    y: 100,
+                                    duration: 0.8,
+                                    ease: "power3.in",
+                                    onComplete: () => hideElement("cake")
+                                });
+                                gsap.to("#happy-birthday", {
+                                    opacity: 0,
+                                    y: 100,
+                                    duration: 0.8,
+                                    ease: "power3.in",
+                                    onComplete: () => hideElement("happy-birthday")
+                                });
+                            }
+                        });
+                    }
+                    gsap.to("#cut", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => hideElement("cut")
+                    });
+                    setTimeout(() => showElement("message"), 1600);
+                });
+            }
+
+            // Show message with heart animation
+            const messageButton = document.getElementById("message-btn");
+            if (messageButton) {
+                messageButton.addEventListener("click", () => {
+                    console.log("Message button clicked!");
+                    gsap.to("#message", {
+                        opacity: 0,
+                        y: 100,
+                        duration: 0.8,
+                        ease: "power3.in",
+                        onComplete: () => hideElement("message")
+                    });
+                    document.body.style.background = "linear-gradient(135deg, #FF6666 0%, #FF9999 100%)";
+                    setTimeout(() => showElement("message-text"), 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
